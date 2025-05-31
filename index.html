@@ -30,20 +30,20 @@
       "esri/Basemap"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // API Key
+      // ✅ Your API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurAbHgZa703qEbwt5TYXZ7ZCCPcmwUvAizKUSk-Qnx8wTShjyFBd7a9KYZgEqCIDwgNffy9AfwPHjeqdwmKuKyoJo9wYJPJxTA9XyOMNKSsZIcusrGXAFcy6wbSi3LkGVRZmXNgnvZc5wQnwPNNcwp2W7E2KnLafCubRmJekK3wSjKYDp1_f43SEwPxUX7Tf5YiQfIS94QLW7cBHawUyggHrGAYILs7jvM5TpaA931towAT1_ydGEG7as";
 
-      // CHALLENGE 2: Change the Basemap
+      // ✅ CHALLENGE 2: Set Basemap to "streets"
       const map = new Map({
-        basemap: "topo-vector"
+        basemap: "streets"
       });
 
-      // CHALLENGE 1: Change the Center and Scale
+      // ✅ CHALLENGE 1: Center to Washington, DC with appropriate zoom
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-77.0369, 38.9072], // Washington, DC
-        scale: 50000
+        center: [-77.0369, 38.9072], // Longitude, Latitude for DC
+        zoom: 13
       });
 
       // ✅ CHALLENGE 3: Custom Basemap Gallery
@@ -68,13 +68,13 @@
       });
       view.ui.add(bgExpand, "top-right");
 
-      // CHALLENGE 4: Add Locate Button
+      // ✅ CHALLENGE 4: Add Locate Button
       const locateWidget = new Locate({
         view: view
       });
       view.ui.add(locateWidget, "top-left");
 
-      // CHALLENGE 5: Add Search Bar
+      // ✅ CHALLENGE 5: Add Search Bar
       const searchWidget = new Search({
         view: view
       });
