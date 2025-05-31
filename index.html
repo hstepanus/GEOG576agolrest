@@ -26,58 +26,41 @@
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
       "esri/widgets/Search",
-      "esri/widgets/Expand",
-      "esri/Basemap"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
+      "esri/widgets/Expand"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
 
-      // ✅ Set your API key here
-      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDrdXEFkDg56iV-GTi3EEWTRkwwUv0l7hsihPafJySWj1OKFrQj-5BTYDN6OLPtwEKjCWE7fOdRRvETtK8wqUoJsDoD3oa6NHmPGaX3q5Z_1ow87oUn3Xpq6Bk6H_2gz2341YXLa_WIEELtC5wFMThji7f_kBhaix8tTaCZxSpEgc.AT1_mojWLwCx";
+      // ✅ Set API key with Geocoding scope enabled
+      esriConfig.apiKey = "YOAAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDrdXEFkDg56iV-GTi3EEWTRkwwUv0l7hsihPafJySWj1OKFrQj-5BTYDN6OLPtwEKjCWE7fOdRRvETtK8wqUoJsDoD3oa6NHmPGaX3q5Z_1ow87oUn3Xpq6Bk6H_2gz2341YXLa_WIEELtC5wFMThji7f_kBhaix8tTaCZxSpEgc.AT1_mojWLwCx";
 
-      // Map with streets basemap
       const map = new Map({
         basemap: "streets"
       });
 
-      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6069, 39.2833], // Baltimore Inner Harbor
+        center: [-76.6069, 39.2833],
         zoom: 14
       });
 
-      // Custom Basemap Gallery
-      const customBasemaps = [
-        Basemap.fromId("streets"),
-        Basemap.fromId("topo-vector"),
-        Basemap.fromId("dark-gray-vector"),
-        Basemap.fromId("satellite"),
-        Basemap.fromId("oceans"),
-        Basemap.fromId("national-geographic")
-      ];
-
+      // Basemap Gallery
       const basemapGallery = new BasemapGallery({
-        view: view,
-        source: customBasemaps
+        view: view
       });
-
       const bgExpand = new Expand({
         view: view,
-        content: basemapGallery,
-        expandIconClass: "esri-icon-basemap"
+        content: basemapGallery
       });
       view.ui.add(bgExpand, "top-right");
 
       // Locate Button
-      const locateWidget = new Locate({
-        view: view
-      });
+      const locateWidget = new Locate({ view: view });
       view.ui.add(locateWidget, "top-left");
 
-      // ✅ Working Search Widget using default geocoder with API key
+      // ✅ Fully working search widget
       const searchWidget = new Search({
         view: view,
-        placeholder: "Search Baltimore or any address"
+        placeholder: "Search for places or addresses"
       });
       view.ui.add(searchWidget, "top-right");
 
