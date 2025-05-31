@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ArcGIS JS API - Baltimore Harbor</title>
+  <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
   <style>
     html, body, #viewDiv {
@@ -26,47 +26,61 @@
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
       "esri/widgets/Search",
-      "esri/widgets/Expand"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
+      "esri/widgets/Expand",
+      "esri/Basemap"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // ✅ Use known good API key
-      esriConfig.apiKey = "AAPKf16e5fef713b4d3d83298c3828dbb67943UEf7OwL9DRZdVkivoxQzK-wMCKoLFD9KHSmQrIQg7cK_Kdl34AseDsdyoYf6Pt";
+      // ✅ Set your API key here
+      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCD8W41sYC6_9XCfTnWKMq7sYhfrivDlj5klx4qFv8YHks-CmtPnC5jYGrm9xwRNb557cgSGrCEJ7i-wwyzaR6-ZeAZXoZARDFwgz7TpKG-nrQjT6u4SkJBTWsjxu7vKCUVWcS8PzZsfgNvBtiUlbvoT_keE4qW3DJ_15HO7grEzOM.AT1_mojWLwCx";
 
+      // Map with streets basemap
       const map = new Map({
         basemap: "streets"
       });
 
+      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6069, 39.2833], // Baltimore Harbor
+        center: [-76.6069, 39.2833], // Baltimore Inner Harbor
         zoom: 14
       });
 
-      // Search widget
-      const searchWidget = new Search({
-        view: view,
-        placeholder: "Search a place or address"
-      });
-      view.ui.add(searchWidget, "top-right");
+      // Custom Basemap Gallery
+      const customBasemaps = [
+        Basemap.fromId("streets"),
+        Basemap.fromId("topo-vector"),
+        Basemap.fromId("dark-gray-vector"),
+        Basemap.fromId("satellite"),
+        Basemap.fromId("oceans"),
+        Basemap.fromId("national-geographic")
+      ];
 
-      // Locate widget
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        source: customBasemaps
+      });
+
+      const bgExpand = new Expand({
+        view: view,
+        content: basemapGallery,
+        expandIconClass: "esri-icon-basemap"
+      });
+      view.ui.add(bgExpand, "top-right");
+
+      // Locate Button
       const locateWidget = new Locate({
         view: view
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Basemap Gallery
-      const basemapGallery = new BasemapGallery({
-        view: view
-      });
-
-      const bgExpand = new Expand({
+      // ✅ Working Search Widget using default geocoder with API key
+      const searchWidget = new Search({
         view: view,
-        content: basemapGallery
+        placeholder: "Search Baltimore or any address"
       });
+      view.ui.add(searchWidget, "top-right");
 
-      view.ui.add(bgExpand, "top-right");
     });
   </script>
 </body>
