@@ -30,7 +30,7 @@
       "esri/Basemap"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // API Key
+      // ✅ Set your API key here
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCD8W41sYC6_9XCfTnWKMq7sYhfrivDlj5klx4qFv8YHks-CmtPnC5jYGrm9xwRNb557cgSGrCEJ7i-wwyzaR6-ZeAZXoZARDFwgz7TpKG-nrQjT6u4SkJBTWsjxu7vKCUVWcS8PzZsfgNvBtiUlbvoT_keE4qW3DJ_15HO7grEzOM.AT1_mojWLwCx";
 
       // Map with streets basemap
@@ -74,17 +74,10 @@
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Search Widget with custom geocoding source
+      // ✅ Working Search Widget using default geocoder with API key
       const searchWidget = new Search({
         view: view,
-        sources: [{
-          locator: {
-            url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-          },
-          singleLineFieldName: "SingleLine",
-          name: "ArcGIS World Geocoding Service",
-          placeholder: "Search address or place"
-        }]
+        placeholder: "Search Baltimore or any address"
       });
       view.ui.add(searchWidget, "top-right");
 
