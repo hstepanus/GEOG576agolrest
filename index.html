@@ -30,8 +30,8 @@
       "esri/Basemap"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // ✅ Set your API key here
-      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDAypknpohvuAP8cUVm9dygUwrkkofmHnHs09yj45RQAX7ZsOlngWZDzNyIUHo2XicKfVTv38Zvus4CAnymD1WVpg3lOaUvVmr5_KGBBCG0vbnw1JSJ4TudMSNzIhuG_pnUObgdpqLS94qEg2cb45dqQ_UwenGx6ruadX-cBqIRP0.AT1_mojWLwCx";
+      // API Key
+      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iKAAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCD8W41sYC6_9XCfTnWKMq7sYhfrivDlj5klx4qFv8YHks-CmtPnC5jYGrm9xwRNb557cgSGrCEJ7i-wwyzaR6-ZeAZXoZARDFwgz7TpKG-nrQjT6u4SkJBTWsjxu7vKCUVWcS8PzZsfgNvBtiUlbvoT_keE4qW3DJ_15HO7grEzOM.AT1_mojWLwCx_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCD8W41sYC6_9XCfTnWKMq7sYhfrivDlj5klx4qFv8YHks-CmtPnC5jYGrm9xwRNb557cgSGrCEJ7i-wwyzaR6-ZeAZXoZARDFwgz7TpKG-nrQjT6u4SkJBTWsjxu7vKCUVWcS8PzZsfgNvBtiUlbvoT_keE4qW3DJ_15HO7grEzOM.AT1_mojWLwCx";
 
       // Map with streets basemap
       const map = new Map({
@@ -74,10 +74,9 @@
       });
       view.ui.add(locateWidget, "top-left");
 
-      // ✅ Working Search Widget using default geocoder with API key
+      // Search Bar
       const searchWidget = new Search({
-        view: view,
-        placeholder: "Search Baltimore or any address"
+        view: view
       });
       view.ui.add(searchWidget, "top-right");
 
