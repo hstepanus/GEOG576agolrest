@@ -74,9 +74,17 @@
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Search Bar
+      // Search Widget with custom geocoding source
       const searchWidget = new Search({
-        view: view
+        view: view,
+        sources: [{
+          locator: {
+            url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+          },
+          singleLineFieldName: "SingleLine",
+          name: "ArcGIS World Geocoding Service",
+          placeholder: "Search address or place"
+        }]
       });
       view.ui.add(searchWidget, "top-right");
 
