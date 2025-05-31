@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
+  <title>ArcGIS JS API - Baltimore Harbor</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
   <style>
     html, body, #viewDiv {
@@ -29,8 +29,8 @@
       "esri/widgets/Expand"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
 
-      // ✅ Set API key with Geocoding scope enabled
-      esriConfig.apiKey = "YOAAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDrdXEFkDg56iV-GTi3EEWTRkwwUv0l7hsihPafJySWj1OKFrQj-5BTYDN6OLPtwEKjCWE7fOdRRvETtK8wqUoJsDoD3oa6NHmPGaX3q5Z_1ow87oUn3Xpq6Bk6H_2gz2341YXLa_WIEELtC5wFMThji7f_kBhaix8tTaCZxSpEgc.AT1_mojWLwCx";
+      // ✅ Use known good API key
+      esriConfig.apiKey = "AAPKf16e5fef713b4d3d83298c3828dbb67943UEf7OwL9DRZdVkivoxQzK-wMCKoLFD9KHSmQrIQg7cK_Kdl34AseDsdyoYf6Pt";
 
       const map = new Map({
         basemap: "streets"
@@ -39,31 +39,34 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6069, 39.2833],
+        center: [-76.6069, 39.2833], // Baltimore Harbor
         zoom: 14
       });
+
+      // Search widget
+      const searchWidget = new Search({
+        view: view,
+        placeholder: "Search a place or address"
+      });
+      view.ui.add(searchWidget, "top-right");
+
+      // Locate widget
+      const locateWidget = new Locate({
+        view: view
+      });
+      view.ui.add(locateWidget, "top-left");
 
       // Basemap Gallery
       const basemapGallery = new BasemapGallery({
         view: view
       });
+
       const bgExpand = new Expand({
         view: view,
         content: basemapGallery
       });
+
       view.ui.add(bgExpand, "top-right");
-
-      // Locate Button
-      const locateWidget = new Locate({ view: view });
-      view.ui.add(locateWidget, "top-left");
-
-      // ✅ Fully working search widget
-      const searchWidget = new Search({
-        view: view,
-        placeholder: "Search for places or addresses"
-      });
-      view.ui.add(searchWidget, "top-right");
-
     });
   </script>
 </body>
