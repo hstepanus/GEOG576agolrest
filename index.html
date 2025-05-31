@@ -26,15 +26,16 @@
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
       "esri/widgets/Search",
-      "esri/widgets/Expand"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
+      "esri/widgets/Expand",
+      "esri/Basemap"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
       // API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurAbHgZa703qEbwt5TYXZ7ZCCPcmwUvAizKUSk-Qnx8wTShjyFBd7a9KYZgEqCIDwgNffy9AfwPHjeqdwmKuKyoJo9wYJPJxTA9XyOMNKSsZIcusrGXAFcy6wbSi3LkGVRZmXNgnvZc5wQnwPNNcwp2W7E2KnLafCubRmJekK3wSjKYDp1_f43SEwPxUX7Tf5YiQfIS94QLW7cBHawUyggHrGAYILs7jvM5TpaA931towAT1_ydGEG7as";
 
       // CHALLENGE 2: Change the Basemap
       const map = new Map({
-        basemap: "topo-vector" // Try "dark-gray", "satellite", etc.
+        basemap: "topo-vector"
       });
 
       // CHALLENGE 1: Change the Center and Scale
@@ -42,12 +43,22 @@
         container: "viewDiv",
         map: map,
         center: [-77.0369, 38.9072], // Washington, DC
-        scale: 50000 // Approximately zoom level 14
+        scale: 50000
       });
 
-      // CHALLENGE 3: Add Basemap Gallery
+      // ✅ CHALLENGE 3: Custom Basemap Gallery
+      const customBasemaps = [
+        Basemap.fromId("streets"),
+        Basemap.fromId("topo-vector"),
+        Basemap.fromId("dark-gray-vector"),
+        Basemap.fromId("satellite"),
+        Basemap.fromId("oceans"),
+        Basemap.fromId("national-geographic")
+      ];
+
       const basemapGallery = new BasemapGallery({
-        view: view
+        view: view,
+        source: customBasemaps
       });
 
       const bgExpand = new Expand({
