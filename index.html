@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
+  <title>ArcGIS JS Example - Baltimore Harbor</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
   <style>
     html, body, #viewDiv {
@@ -25,20 +25,19 @@
       "esri/views/MapView",
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
-      "esri/widgets/Search",
       "esri/widgets/Expand",
       "esri/Basemap"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Expand, Basemap) {
 
-      //  API Key
+      // API Key 
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDZypLDN6o5rrXPQLwOD50deUbCmuCQU9ymnhinm-1DjC9F3V8gOCxW0lx0kc08dQPMKkc0anz6ll_7wTWVqJxzr1W4hZ8CQUhvkNsR3Z4r31NuY7OMmV3KfyZFyKPAwjJhH76fJQGghNQQNzdFkbSXLFO6ZPHbOeGRVjSFVK4Kns.AT1_mojWLwCx";
 
-      // Map with streets basemap
+      // Create the map
       const map = new Map({
         basemap: "streets"
       });
 
-      // MapView centered at Baltimore Harbor
+      // Create the map view
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -46,7 +45,13 @@
         zoom: 14
       });
 
-      // Basemap Gallery
+      // Add Locate widget
+      const locateWidget = new Locate({
+        view: view
+      });
+      view.ui.add(locateWidget, "top-left");
+
+      // Add Basemap Gallery
       const customBasemaps = [
         Basemap.fromId("streets"),
         Basemap.fromId("topo-vector"),
@@ -66,27 +71,8 @@
         content: basemapGallery,
         expandIconClass: "esri-icon-basemap"
       });
+
       view.ui.add(bgExpand, "top-right");
-
-      // Locate Button
-      const locateWidget = new Locate({
-        view: view
-      });
-      view.ui.add(locateWidget, "top-left");
-
-      // I added the Search widget to avoid silently fail in a bad API
-      const searchWidget = new Search({
-        view: view,
-        sources: [{
-          locator: {
-            url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-          },
-          singleLineFieldName: "SingleLine",
-          name: "ArcGIS World Geocoding Service",
-          placeholder: "Search address or place"
-        }]
-      });
-      view.ui.add(searchWidget, "top-right");
 
     });
   </script>
