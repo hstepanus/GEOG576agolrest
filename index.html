@@ -33,12 +33,12 @@
       // API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDtHseCperWYLRxbXEH6KHPW_z1BGe3p3t5U1dDDltNw6E-PlM0656kPI-qbqaR5qHNzRffSgGBh-7LKKBQ9BBGGK7s39AyLRisTZHY1PfH9aW_-tdBeGSXhOo0F9PCIMYT5IIIpV96eHuEpXcfS4yJBNZvOFU1cwCi6j8IPd-aBg.AT1_mojWLwCx";
 
-      // Map with streets basemap
+      // Updated map with a vector basemap
       const map = new Map({
-        basemap: "streets"
+        basemap: "streets-vector"
       });
 
-      // MapView centered at Baltimore Harbor
+      // View centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -46,14 +46,14 @@
         zoom: 14
       });
 
-      // Custom Basemap Gallery
+      // Updated Basemaps (use only vector or supported basemaps)
       const customBasemaps = [
-        Basemap.fromId("streets"),
+        Basemap.fromId("streets-vector"),
         Basemap.fromId("topo-vector"),
         Basemap.fromId("dark-gray-vector"),
         Basemap.fromId("satellite"),
         Basemap.fromId("oceans"),
-        Basemap.fromId("national-geographic")
+        Basemap.fromId("terrain")
       ];
 
       const basemapGallery = new BasemapGallery({
@@ -68,13 +68,13 @@
       });
       view.ui.add(bgExpand, "top-right");
 
-      // Locate Button
+      // Locate Widget
       const locateWidget = new Locate({
         view: view
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Search Bar
+      // Search Widget
       const searchWidget = new Search({
         view: view
       });
