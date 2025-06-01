@@ -20,6 +20,7 @@
 
   <script>
     require([
+      "esri/config",
       "esri/Map",
       "esri/views/MapView",
       "esri/widgets/BasemapGallery",
@@ -27,12 +28,17 @@
       "esri/widgets/Search",
       "esri/widgets/Expand",
       "esri/Basemap"
-    ], function(Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
+      // API Key
+      esriConfig.apiKey = " AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDZypLDN6o5rrXPQLwOD50deUbCmuCQU9ymnhinm-1DjC9F3V8gOCxW0lx0kc08dQPMKkc0anz6ll_7wTWVqJxzr1W4hZ8CQUhvkNsR3Z4r31NuY7OMmV3KfyZFyKPAwjJhH76fJQGghNQQNzdFkbSXLFO6ZPHbOeGRVjSFVK4Kns.AT1_mojWLwCx";
+
+      // Map with streets basemap
       const map = new Map({
         basemap: "streets"
       });
 
+      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -40,6 +46,7 @@
         zoom: 14
       });
 
+      // Custom Basemap Gallery
       const customBasemaps = [
         Basemap.fromId("streets"),
         Basemap.fromId("topo-vector"),
@@ -61,24 +68,16 @@
       });
       view.ui.add(bgExpand, "top-right");
 
+      // Locate Button
       const locateWidget = new Locate({
         view: view
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Use public ESRI World Geocoder
+      // Search Bar
       const searchWidget = new Search({
-        view: view,
-        sources: [{
-          locator: {
-            url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-          },
-          singleLineFieldName: "SingleLine",
-          name: "ArcGIS World Geocoding Service",
-          placeholder: "Search address or place"
-        }]
+        view: view
       });
-
       view.ui.add(searchWidget, "top-right");
 
     });
