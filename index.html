@@ -25,19 +25,18 @@
       "esri/views/MapView",
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
+      "esri/widgets/Search",
       "esri/widgets/Expand",
       "esri/Basemap"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Expand, Basemap) {
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // API Key 
+      // ✅ Set your API key (NO leading space)
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDZypLDN6o5rrXPQLwOD50deUbCmuCQU9ymnhinm-1DjC9F3V8gOCxW0lx0kc08dQPMKkc0anz6ll_7wTWVqJxzr1W4hZ8CQUhvkNsR3Z4r31NuY7OMmV3KfyZFyKPAwjJhH76fJQGghNQQNzdFkbSXLFO6ZPHbOeGRVjSFVK4Kns.AT1_mojWLwCx";
 
-      // Create the map
       const map = new Map({
         basemap: "streets"
       });
 
-      // Create the map view
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -45,13 +44,25 @@
         zoom: 14
       });
 
-      // Add Locate widget
+      // ✅ Search widget with reliable public locator
+      const searchWidget = new Search({
+        view: view,
+        sources: [{
+          locator: {
+            url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+          },
+          placeholder: "Search address or place"
+        }]
+      });
+      view.ui.add(searchWidget, "top-right");
+
+      // Locate widget
       const locateWidget = new Locate({
         view: view
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Add Basemap Gallery
+      // Custom basemap list
       const customBasemaps = [
         Basemap.fromId("streets"),
         Basemap.fromId("topo-vector"),
@@ -73,7 +84,6 @@
       });
 
       view.ui.add(bgExpand, "top-right");
-
     });
   </script>
 </body>
