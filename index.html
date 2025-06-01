@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ArcGIS JS Example - Baltimore Harbor</title>
+  <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
   <style>
     html, body, #viewDiv {
@@ -26,10 +26,11 @@
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
       "esri/widgets/Search",
-      "esri/widgets/Expand"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
+      "esri/widgets/Expand",
+      "esri/Basemap"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // ✅ Correct API Key (no leading/trailing space)
+      // API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDZypLDN6o5rrXPQLwOD50deUbCmuCQU9ymnhinm-1DjC9F3V8gOCxW0lx0kc08dQPMKkc0anz6ll_7wTWVqJxzr1W4hZ8CQUhvkNsR3Z4r31NuY7OMmV3KfyZFyKPAwjJhH76fJQGghNQQNzdFkbSXLFO6ZPHbOeGRVjSFVK4Kns.AT1_mojWLwCx";
 
       // Map with streets basemap
@@ -37,23 +38,27 @@
         basemap: "streets"
       });
 
-      // View centered at Baltimore Inner Harbor
+      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6069, 39.2833], // Baltimore
+        center: [-76.6069, 39.2833], // Baltimore Inner Harbor
         zoom: 14
       });
 
-      // Locate Button
-      const locateWidget = new Locate({
-        view: view
-      });
-      view.ui.add(locateWidget, "top-left");
+      // Custom Basemap Gallery
+      const customBasemaps = [
+        Basemap.fromId("streets"),
+        Basemap.fromId("topo-vector"),
+        Basemap.fromId("dark-gray-vector"),
+        Basemap.fromId("satellite"),
+        Basemap.fromId("oceans"),
+        Basemap.fromId("national-geographic")
+      ];
 
-      // Basemap Gallery with Expand widget
       const basemapGallery = new BasemapGallery({
-        view: view
+        view: view,
+        source: customBasemaps
       });
 
       const bgExpand = new Expand({
@@ -63,10 +68,15 @@
       });
       view.ui.add(bgExpand, "top-right");
 
-      // Search Widget using default locator with placeholder
+      // Locate Button
+      const locateWidget = new Locate({
+        view: view
+      });
+      view.ui.add(locateWidget, "top-left");
+
+      // Search Bar
       const searchWidget = new Search({
-        view: view,
-        placeholder: "Search Baltimore or any address"
+        view: view
       });
       view.ui.add(searchWidget, "top-right");
 
