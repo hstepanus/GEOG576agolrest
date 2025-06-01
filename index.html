@@ -20,7 +20,6 @@
 
   <script>
     require([
-      "esri/config",
       "esri/Map",
       "esri/views/MapView",
       "esri/widgets/BasemapGallery",
@@ -28,17 +27,12 @@
       "esri/widgets/Search",
       "esri/widgets/Expand",
       "esri/Basemap"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
+    ], function(Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // API Key
-      esriConfig.apiKey = "AAPTxy8BH1VEsoeAAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDAypknpohvuAP8cUVm9dygUwrkkofmHnHs09yj45RQAX7ZsOlngWZDzNyIUHo2XicKfVTv38Zvus4CAnymD1WVpg3lOaUvVmr5_KGBBCG0vbnw1JSJ4TudMSNzIhuG_pnUObgdpqLS94qEg2cb45dqQ_UwenGx6ruadX-cBqIRP0.AT1_mojWLwCxbNVZXo8HurPtGjTUF0iKAAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCD8W41sYC6_9XCfTnWKMq7sYhfrivDlj5klx4qFv8YHks-CmtPnC5jYGrm9xwRNb557cgSGrCEJ7i-wwyzaR6-ZeAZXoZARDFwgz7TpKG-nrQjT6u4SkJBTWsjxu7vKCUVWcS8PzZsfgNvBtiUlbvoT_keE4qW3DJ_15HO7grEzOM.AT1_mojWLwCx_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCD8W41sYC6_9XCfTnWKMq7sYhfrivDlj5klx4qFv8YHks-CmtPnC5jYGrm9xwRNb557cgSGrCEJ7i-wwyzaR6-ZeAZXoZARDFwgz7TpKG-nrQjT6u4SkJBTWsjxu7vKCUVWcS8PzZsfgNvBtiUlbvoT_keE4qW3DJ_15HO7grEzOM.AT1_mojWLwCx";
-
-      // Map with streets basemap
       const map = new Map({
         basemap: "streets"
       });
 
-      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -46,7 +40,6 @@
         zoom: 14
       });
 
-      // Custom Basemap Gallery
       const customBasemaps = [
         Basemap.fromId("streets"),
         Basemap.fromId("topo-vector"),
@@ -68,16 +61,24 @@
       });
       view.ui.add(bgExpand, "top-right");
 
-      // Locate Button
       const locateWidget = new Locate({
         view: view
       });
       view.ui.add(locateWidget, "top-left");
 
-      // Search Bar
+      // Use public ESRI World Geocoder
       const searchWidget = new Search({
-        view: view
+        view: view,
+        sources: [{
+          locator: {
+            url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+          },
+          singleLineFieldName: "SingleLine",
+          name: "ArcGIS World Geocoding Service",
+          placeholder: "Search address or place"
+        }]
       });
+
       view.ui.add(searchWidget, "top-right");
 
     });
