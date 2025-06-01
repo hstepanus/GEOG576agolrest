@@ -30,30 +30,27 @@
       "esri/Basemap"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // API Key
+   
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDtHseCperWYLRxbXEH6KHPW_z1BGe3p3t5U1dDDltNw6E-PlM0656kPI-qbqaR5qHNzRffSgGBh-7LKKBQ9BBGGK7s39AyLRisTZHY1PfH9aW_-tdBeGSXhOo0F9PCIMYT5IIIpV96eHuEpXcfS4yJBNZvOFU1cwCi6j8IPd-aBg.AT1_mojWLwCx";
 
-      // Updated map with a vector basemap
       const map = new Map({
         basemap: "streets-vector"
       });
 
-      // View centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6069, 39.2833], // Baltimore Inner Harbor
+        center: [-76.6069, 39.2833], // Baltimore Harbor
         zoom: 14
       });
 
-      // Updated Basemaps (use only vector or supported basemaps)
+     
       const customBasemaps = [
         Basemap.fromId("streets-vector"),
-        Basemap.fromId("terrain"),
-        Basemap.fromId("topo-vector"),
-        Basemap.fromId("dark-gray-vector"),
         Basemap.fromId("satellite"),
         Basemap.fromId("oceans"),
+        Basemap.fromId("terrain"),
+        Basemap.fromId("osm")
       ];
 
       const basemapGallery = new BasemapGallery({
