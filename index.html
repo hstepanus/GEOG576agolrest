@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ArcGIS JS Example - Baltimore Harbor</title>
+  <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
   <style>
     html, body, #viewDiv {
@@ -30,13 +30,15 @@
       "esri/Basemap"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap) {
 
-      // ✅ Set your API key (NO leading space)
-      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDZypLDN6o5rrXPQLwOD50deUbCmuCQU9ymnhinm-1DjC9F3V8gOCxW0lx0kc08dQPMKkc0anz6ll_7wTWVqJxzr1W4hZ8CQUhvkNsR3Z4r31NuY7OMmV3KfyZFyKPAwjJhH76fJQGghNQQNzdFkbSXLFO6ZPHbOeGRVjSFVK4Kns.AT1_mojWLwCx";
+      // API Key
+      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDtHseCperWYLRxbXEH6KHPW_z1BGe3p3t5U1dDDltNw6E-PlM0656kPI-qbqaR5qHNzRffSgGBh-7LKKBQ9BBGGK7s39AyLRisTZHY1PfH9aW_-tdBeGSXhOo0F9PCIMYT5IIIpV96eHuEpXcfS4yJBNZvOFU1cwCi6j8IPd-aBg.AT1_mojWLwCx";
 
+      // Map with streets basemap
       const map = new Map({
         basemap: "streets"
       });
 
+      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
@@ -44,25 +46,7 @@
         zoom: 14
       });
 
-      // ✅ Search widget with reliable public locator
-      const searchWidget = new Search({
-        view: view,
-        sources: [{
-          locator: {
-            url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-          },
-          placeholder: "Search address or place"
-        }]
-      });
-      view.ui.add(searchWidget, "top-right");
-
-      // Locate widget
-      const locateWidget = new Locate({
-        view: view
-      });
-      view.ui.add(locateWidget, "top-left");
-
-      // Custom basemap list
+      // Custom Basemap Gallery
       const customBasemaps = [
         Basemap.fromId("streets"),
         Basemap.fromId("topo-vector"),
@@ -82,8 +66,20 @@
         content: basemapGallery,
         expandIconClass: "esri-icon-basemap"
       });
-
       view.ui.add(bgExpand, "top-right");
+
+      // Locate Button
+      const locateWidget = new Locate({
+        view: view
+      });
+      view.ui.add(locateWidget, "top-left");
+
+      // Search Bar
+      const searchWidget = new Search({
+        view: view
+      });
+      view.ui.add(searchWidget, "top-right");
+
     });
   </script>
 </body>
