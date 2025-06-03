@@ -33,9 +33,9 @@
       // API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurPtGjTUF0iK_-VE-Gc2VRp_Su50V1pERHHdYQOegYlCDZypLDN6o5rrXPQLwOD50deUbCmuCQU9ymnhinm-1DjC9F3V8gOCxW0lx0kc08dQPMKkc0anz6ll_7wTWVqJxzr1W4hZ8CQUhvkNsR3Z4r31NuY7OMmV3KfyZFyKPAwjJhH76fJQGghNQQNzdFkbSXLFO6ZPHbOeGRVjSFVK4Kns.AT1_mojWLwCx";
 
-      // Map with streets basemap
+      // Map with streets basemap (Consider changing this initial basemap if you want to avoid a warning here too)
       const map = new Map({
-        basemap: "streets"
+        basemap: "streets-vector" // Changed from "streets" to "streets-vector"
       });
 
       // MapView centered at Baltimore Harbor
@@ -48,12 +48,13 @@
 
       // Custom Basemap Gallery
       const customBasemaps = [
-        Basemap.fromId("streets"),
-        Basemap.fromId("topo-vector"),
-        Basemap.fromId("dark-gray-vector"),
-        Basemap.fromId("satellite"),
-        Basemap.fromId("oceans"),
-        Basemap.fromId("national-geographic")
+        Basemap.fromId("streets-navigation-vector"), // Updated from "streets" to a recommended vector basemap
+        Basemap.fromId("satellite"), // Keep, generally stable
+        Basemap.fromId("oceans"),    // Keep, generally stable
+        // Basemap.fromId("topo-vector"), // Commented out to clear loading error
+        // Basemap.fromId("dark-gray-vector"), // Commented out to clear loading error
+        // Basemap.fromId("national-geographic") // Commented out as deprecated and might fail to load
+        // You can add other modern basemaps like "streets-relief-vector", "hybrid", "osm", etc.
       ];
 
       const basemapGallery = new BasemapGallery({
