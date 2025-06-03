@@ -51,19 +51,10 @@
         Basemap.fromId("streets-navigation-vector"), // Updated from "streets" to a recommended vector basemap
         Basemap.fromId("satellite"), // Keep, generally stable
         Basemap.fromId("oceans"),    // Keep, generally stable
-        // Basemap.fromId("topo-vector"), // Commented out to clear loading error
-        // Basemap.fromId("dark-gray-vector"), // Commented out to clear loading error
-        // Basemap.fromId("national-geographic") // Commented out as deprecated and might fail to load
+        Basemap.fromId("topo-vector"), // Commented out to clear loading error
+        Basemap.fromId("dark-gray-vector"), // Commented out to clear loading error
+        Basemap.fromId("national-geographic") // Commented out as deprecated and might fail to load
         // You can add other modern basemaps like "streets-relief-vector", "hybrid", "osm", etc.
-        Basemap.fromId("arcgis-navigation"),       // Modern street map (vector)
-        Basemap.fromId("arcgis-imagery"),          // Satellite imagery (raster)
-        Basemap.fromId("arcgis-topographic"),      // Topographic map (vector)
-        Basemap.fromId("arcgis-terrain"),         // Terrain with Labels
-        Basemap.fromId("arcgis-oceans"),           // Oceanographic map (vector)
-        Basemap.fromId("osm"),                     // OpenStreetMap (vector)
-        Basemap.fromId("dark-gray-canvas"),        // Simple dark background (vector)
-        Basemap.fromId("light-gray-canvas"),       // Simple light background (vector)
-        Basemap.fromId("hybrid")                   // Imagery with labels (raster)
       ];
 
       const basemapGallery = new BasemapGallery({
