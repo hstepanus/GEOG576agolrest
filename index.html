@@ -32,7 +32,8 @@
       "esri/layers/GraphicsLayer"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer) {
 
-      esriConfig.apiKey = "YOUR_VALID_API_KEY";
+      // ✅ API Key
+      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi";
 
       const map = new Map({
         basemap: "streets-vector"
@@ -41,21 +42,21 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6060, 39.2840],
+        center: [-76.6060, 39.2840], // Centered at Seven Foot Knoll Lighthouse
         zoom: 15
       });
 
+      // ✅ Graphics Layer for adding the point
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
-      // Challenge 1 - Custom marker shape (diamond)
       const point = {
         type: "point",
         longitude: -76.6060,
         latitude: 39.2840
       };
 
-      const customMarkerSymbol = {
+      const simpleMarkerSymbol = {
         type: "simple-marker",
         style: "diamond", // Changed from default circle
         color: [0, 0, 139],
@@ -67,60 +68,12 @@
 
       const pointGraphic = new Graphic({
         geometry: point,
-        symbol: customMarkerSymbol
+        symbol: simpleMarkerSymbol
       });
+
       graphicsLayer.add(pointGraphic);
 
-      // Challenge 2 - Add a polyline
-      const polyline = {
-        type: "polyline",
-        paths: [
-          [-76.6075, 39.2845],
-          [-76.6055, 39.2845],
-          [-76.6055, 39.2835]
-        ]
-      };
-
-      const polylineSymbol = {
-        type: "simple-line",
-        color: [255, 0, 0],
-        width: 2
-      };
-
-      const polylineGraphic = new Graphic({
-        geometry: polyline,
-        symbol: polylineSymbol
-      });
-      graphicsLayer.add(polylineGraphic);
-
-      // Challenge 2 - Add a polygon
-      const polygon = {
-        type: "polygon",
-        rings: [
-          [-76.6065, 39.2845],
-          [-76.6060, 39.2847],
-          [-76.6055, 39.2845],
-          [-76.6060, 39.2842],
-          [-76.6065, 39.2845]
-        ]
-      };
-
-      const polygonSymbol = {
-        type: "simple-fill",
-        color: [0, 255, 0, 0.4],
-        outline: {
-          color: [0, 128, 0],
-          width: 1
-        }
-      };
-
-      const polygonGraphic = new Graphic({
-        geometry: polygon,
-        symbol: polygonSymbol
-      });
-      graphicsLayer.add(polygonGraphic);
-
-      // Basemap Gallery
+      // ✅ Custom Basemaps
       const customBasemaps = [
         Basemap.fromId("streets-navigation-vector"),
         Basemap.fromId("satellite"),
