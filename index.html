@@ -65,10 +65,20 @@
           width: 1
         }
       };
+      const popupTemplate = {
+        title: "{Name}",
+        content: "{Description}"
+      }
+      const attributes = {
+        Name: "Seven Foot Knoll Lighthouse Statue",
+        Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
+      }
 
       const pointGraphic = new Graphic({
         geometry: point,
-        symbol: simpleMarkerSymbol
+        symbol: simpleMarkerSymbol,
+        attributes: attributes,
+        popupTemplate: popupTemplate
       });
 
       graphicsLayer.add(pointGraphic);
