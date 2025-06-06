@@ -1,2 +1,2 @@
-# geog576esrijs
-Lab one Geog 576 ESRI JS map
+# Lab 1
+Lab one ESRI JS map
