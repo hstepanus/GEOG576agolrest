@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Hello, AGOL!</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
@@ -29,61 +28,57 @@
       "esri/widgets/Search",
       "esri/widgets/Expand",
       "esri/Basemap",
-      "esri/Graphic",  
-      "esri/layers/GraphicsLayer"   
- 
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer) {
 
-      // API Key
+      // ✅ API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi";
 
-      // Map with streets basemap (Consider changing this initial basemap if you want to avoid a warning here too)
       const map = new Map({
-        basemap: "streets-vector" // Changed from "streets" to "streets-vector"
+        basemap: "streets-vector"
       });
 
-      // MapView centered at Baltimore Harbor
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6069, 39.2833], // Baltimore Inner Harbor
-        zoom: 14
+        center: [-76.6060, 39.2840], // Centered at Seven Foot Knoll Lighthouse
+        zoom: 15
       });
-      // adding  the constructor for the graphicslayer
-      const graphicsLayer = new GraphicsLayer();  
+
+      // ✅ Graphics Layer for adding the point
+      const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
-      const point = { 
-        //Create a point  
-        type: "point",  
-        longitude: -76.6060,    //long lat of Seven Foot Knoll Lighthouse
+
+      const point = {
+        type: "point",
+        longitude: -76.6060,
         latitude: 39.2840
       };
-      //maker style
-      const simpleMarkerSymbol = {  
-        type: "simple-marker",  
-        color: [0, 0, 139],  // Color of blues rock
-        outline: {  
-        color: [255, 255, 255], // White  
-        width: 1
-      }  
-      };
-      //creating the point
-      const pointGraphic = new Graphic({  
-        geometry: point,  
-        symbol: simpleMarkerSymbol  
-      });
-      //adding to the map
-       graphicsLayer.add(pointGraphic);
 
-      // Custom Basemap Gallery
+      const simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: [0, 0, 139],
+        outline: {
+          color: [255, 255, 255],
+          width: 1
+        }
+      };
+
+      const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol
+      });
+
+      graphicsLayer.add(pointGraphic);
+
+      // ✅ Custom Basemaps
       const customBasemaps = [
-        Basemap.fromId("streets-navigation-vector"), // Updated from "streets" to a recommended vector basemap
-        Basemap.fromId("satellite"), // Keep, generally stable
-        Basemap.fromId("oceans"),    // Keep, generally stable
-        Basemap.fromId("topo-vector"), // Commented out to clear loading error
-        Basemap.fromId("dark-gray-vector") // Commented out to clear loading error
-        //Basemap.fromId("national-geographic") // Commented out as deprecated and might fail to load
-        // You can add other modern basemaps like "streets-relief-vector", "hybrid", "osm", etc.
+        Basemap.fromId("streets-navigation-vector"),
+        Basemap.fromId("satellite"),
+        Basemap.fromId("oceans"),
+        Basemap.fromId("topo-vector"),
+        Basemap.fromId("dark-gray-vector")
       ];
 
       const basemapGallery = new BasemapGallery({
@@ -98,18 +93,8 @@
       });
       view.ui.add(bgExpand, "top-right");
 
-      // Locate Button
-      const locateWidget = new Locate({
-        view: view
-      });
-      view.ui.add(locateWidget, "top-left");
-
-      // Search Bar
-      const searchWidget = new Search({
-        view: view
-      });
-      view.ui.add(searchWidget, "top-right");
-
+      view.ui.add(new Locate({ view: view }), "top-left");
+      view.ui.add(new Search({ view: view }), "top-right");
     });
   </script>
 </body>
