@@ -127,8 +127,22 @@
           title: "Airport: {Fac_Name}",
           content: "<b>Facility Use:</b> {Fac_Use}"
         }
+      
       });
-      map.add(usaairportLayer);
+      const airportRenderer = {
+        "type": "simple",
+        "symbol": {
+          "type": "picture-marker",
+          "url": "https://sounny.github.io/agol/outline_local_airport_black_24dp.png",
+          "width": "18px",
+          "height": "18px"
+        }
+      }
+       const airportLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/shttps://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServerervices/US_Airports/FeatureServer",
+          renderer: airportRenderer //calling the icon
+        });
+      map.add(usaairportLayer);//adding the feature to the map
     });
   </script>
 </body>
