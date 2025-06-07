@@ -46,45 +46,6 @@
         zoom: 15
       });
 
-      // Graphics layer for lighthouse
-      const graphicsLayer = new GraphicsLayer();
-      map.add(graphicsLayer);
-
-      const point = {
-        type: "point",
-        longitude: -76.6060,
-        latitude: 39.2840
-      };
-
-      const simpleMarkerSymbol = {
-        type: "simple-marker",
-        style: "diamond",
-        color: [0, 0, 139],
-        outline: {
-          color: [255, 255, 255],
-          width: 1
-        }
-      };
-
-      const popupTemplate = {
-        title: "{Name}",
-        content: "{Description}"
-      };
-
-      const attributes = {
-        Name: "Seven Foot Knoll Lighthouse Statue",
-        Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
-      };
-
-      const pointGraphic = new Graphic({
-        geometry: point,
-        symbol: simpleMarkerSymbol,
-        attributes: attributes,
-        popupTemplate: popupTemplate
-      });
-
-      graphicsLayer.add(pointGraphic);
-
       // Basemap gallery
       const customBasemaps = [
         Basemap.fromId("streets-navigation-vector"),
@@ -108,23 +69,47 @@
       view.ui.add(new Locate({ view: view }), "top-left");
       view.ui.add(new Search({ view: view }), "top-right");
 
-      // EDU Feature Layer
-      const usaeduLayer = new FeatureLayer({
-        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
-        outFields: ["INSTNM", "WEBADDR"],
+      // Add a static point (Lighthouse)
+      const graphicsLayer = new GraphicsLayer();
+      map.add(graphicsLayer);
+
+      const point = {
+        type: "point",
+        longitude: -76.6060,
+        latitude: 39.2840
+      };
+
+      const simpleMarkerSymbol = {
+        type: "simple-marker",
+        style: "diamond",
+        color: [0, 0, 139],
+        outline: {
+          color: [255, 255, 255],
+          width: 1
+        }
+      };
+
+      const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol,
+        attributes: {
+          Name: "Seven Foot Knoll Lighthouse",
+          Description: "1855 screw-top lighthouse relocated from Patapsco River."
+        },
         popupTemplate: {
-          title: "Educational Institution",
-          content: "<b>Name:</b> {INSTNM}<br><b>Website:</b> <a href='{WEBADDR}' target='_blank'>{WEBADDR}</a>"
+          title: "{Name}",
+          content: "{Description}"
         }
       });
-      map.add(usaeduLayer);
 
-      // ✅ Airport Feature Layer with PNG symbol
+      graphicsLayer.add(pointGraphic);
+
+      // ✅ Add Airport Layer with PNG Icon + Popup
       const airportRenderer = {
         type: "simple",
         symbol: {
           type: "picture-marker",
-          url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/local_airport_24dp_EA3323.pngp_1F1F1F.png", 
+          url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/local_airport_24dp_EA3323.png",
           width: "24px",
           height: "24px"
         }
@@ -132,8 +117,8 @@
 
       const usaairportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
-        outFields: ["Fac_Name", "Fac_Use"],
         renderer: airportRenderer,
+        outFields: ["Fac_Name", "Fac_Use"],
         popupTemplate: {
           title: "Airport: {Fac_Name}",
           content: "<b>Facility Use:</b> {Fac_Use}"
@@ -141,6 +126,7 @@
       });
 
       map.add(usaairportLayer);
+
     });
   </script>
 </body>
