@@ -29,8 +29,10 @@
       "esri/widgets/Expand",
       "esri/Basemap",
       "esri/Graphic",
-      "esri/layers/GraphicsLayer"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer) {
+      "esri/layers/GraphicsLayer",
+      //adding in the module for the feature layers
+      "esri/layers/FeatureLayer"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer, FeatureLayer) {
 
       // ✅ API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi";
@@ -106,6 +108,12 @@
 
       view.ui.add(new Locate({ view: view }), "top-left");
       view.ui.add(new Search({ view: view }), "top-right");
+      // adding the constructor for the feature layer
+      const usaeduLayer = new FeatureLayer({
+       url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer"
+      });
+      //adding the feature layer to the map
+      map.add(usaeduLayer);
     });
   </script>
 </body>
