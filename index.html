@@ -46,7 +46,7 @@
         zoom: 15
       });
 
-      // Graphics layer for custom points
+      // Graphics layer for lighthouse
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
@@ -108,7 +108,7 @@
       view.ui.add(new Locate({ view: view }), "top-left");
       view.ui.add(new Search({ view: view }), "top-right");
 
-      // ✅ EDU Feature Layer with popup
+      // EDU Feature Layer
       const usaeduLayer = new FeatureLayer({
         url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
         outFields: ["INSTNM", "WEBADDR"],
@@ -119,30 +119,29 @@
       });
       map.add(usaeduLayer);
 
-      // ✅ Airport Feature Layer with popup
+      // ✅ Airport Feature Layer with PNG symbol
+      const airportRenderer = {
+        type: "simple",
+        symbol: {
+          type: "picture-marker",
+          url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/local_airport_24dp_1F1F1F.png", // must be raw GitHub URL
+          width: "24px",
+          height: "24px"
+        }
+      };
+
       const usaairportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
         outFields: ["Fac_Name", "Fac_Use"],
+        renderer: airportRenderer,
         popupTemplate: {
           title: "Airport: {Fac_Name}",
           content: "<b>Facility Use:</b> {Fac_Use}"
         }
       });
+
       map.add(usaairportLayer);
     });
-    const airportRenderer = {
-        "type": "simple",
-        "symbol": {
-          "type": "picture-marker",
-          "url": "https://github.com/hstepanus/AGOL/blob/main/local_airport_24dp_1F1F1F.png",
-          "width": "18px",
-          "height": "18px"
-        }
-      }
-      const airportLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServerS",
-          renderer: airportRenderer
-        });
   </script>
 </body>
 </html>
