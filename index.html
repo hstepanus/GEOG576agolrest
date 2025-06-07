@@ -130,6 +130,19 @@
       });
       map.add(usaairportLayer);
     });
+    const airportRenderer = {
+        "type": "simple",
+        "symbol": {
+          "type": "picture-marker",
+          "url": "https://github.com/hstepanus/AGOL/blob/main/local_airport_24dp_1F1F1F.png",
+          "width": "18px",
+          "height": "18px"
+        }
+      }
+      const airportLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServerS",
+          renderer: airportRenderer
+        });
   </script>
 </body>
 </html>
