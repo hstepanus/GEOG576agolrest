@@ -30,10 +30,12 @@
       "esri/Basemap",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-      "esri/layers/FeatureLayer"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer, FeatureLayer) {
+      "esri/layers/FeatureLayer",
+      "esri/geometry/Polyline",
+      "esri/geometry/Polygon"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer, FeatureLayer, Polyline, Polygon) {
 
-      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi";
+      esriConfig.apiKey = "YOUR_API_KEY_HERE";
 
       const map = new Map({
         basemap: "streets-vector"
@@ -46,69 +48,89 @@
         zoom: 15
       });
 
-      // Graphics layer for custom points
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
+      // Point Marker
       const point = {
         type: "point",
         longitude: -76.6060,
         latitude: 39.2840
       };
-
       const simpleMarkerSymbol = {
         type: "simple-marker",
         style: "diamond",
         color: [0, 0, 139],
-        outline: {
-          color: [255, 255, 255],
-          width: 1
-        }
+        outline: { color: [255, 255, 255], width: 1 }
       };
-
-      const popupTemplate = {
-        title: "{Name}",
-        content: "{Description}"
-      };
-
-      const attributes = {
-        Name: "Seven Foot Knoll Lighthouse Statue",
-        Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
-      };
-
       const pointGraphic = new Graphic({
         geometry: point,
         symbol: simpleMarkerSymbol,
-        attributes: attributes,
-        popupTemplate: popupTemplate
+        attributes: {
+          Name: "Seven Foot Knoll Lighthouse Statue",
+          Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
+        },
+        popupTemplate: { title: "{Name}", content: "{Description}" }
       });
-
       graphicsLayer.add(pointGraphic);
 
-      // Basemap gallery
-      const customBasemaps = [
-        Basemap.fromId("streets-navigation-vector"),
-        Basemap.fromId("satellite"),
-        Basemap.fromId("oceans"),
-        Basemap.fromId("topo-vector"),
-        Basemap.fromId("dark-gray-vector")
-      ];
+      // Polyline (Path around Inner Harbor)
+      const harborPath = new Polyline({
+        paths: [
+          [-76.6130, 39.2835],
+          [-76.6100, 39.2845],
+          [-76.6060, 39.2855]
+        ],
+        spatialReference: { wkid: 4326 }
+      });
+      const lineGraphic = new Graphic({
+        geometry: harborPath,
+        symbol: { type: "simple-line", color: [0, 0, 255], width: 2 },
+        attributes: { Name: "Harbor Walk", Description: "Path along Inner Harbor." },
+        popupTemplate: { title: "{Name}", content: "{Description}" }
+      });
+      graphicsLayer.add(lineGraphic);
 
+      // Polygon (Harborplace Area)
+      const harborPolygon = new Polygon({
+        rings: [
+          [-76.6080, 39.2842],
+          [-76.6075, 39.2846],
+          [-76.6068, 39.2843],
+          [-76.6073, 39.2839],
+          [-76.6080, 39.2842]
+        ],
+        spatialReference: { wkid: 4326 }
+      });
+      const polygonGraphic = new Graphic({
+        geometry: harborPolygon,
+        symbol: {
+          type: "simple-fill",
+          color: [226, 119, 40, 0.3],
+          outline: { color: [255, 255, 255], width: 1 }
+        },
+        attributes: { Name: "Harborplace Plaza", Description: "Historic shopping and dining area." },
+        popupTemplate: { title: "{Name}", content: "{Description}" }
+      });
+      graphicsLayer.add(polygonGraphic);
+
+      // Basemap gallery
       const basemapGallery = new BasemapGallery({
         view: view,
-        source: customBasemaps
+        source: [
+          Basemap.fromId("streets-navigation-vector"),
+          Basemap.fromId("satellite"),
+          Basemap.fromId("oceans"),
+          Basemap.fromId("topo-vector"),
+          Basemap.fromId("dark-gray-vector")
+        ]
       });
-
-      const bgExpand = new Expand({
-        view: view,
-        content: basemapGallery,
-        expandIconClass: "esri-icon-basemap"
-      });
+      const bgExpand = new Expand({ view: view, content: basemapGallery, expandIconClass: "esri-icon-basemap" });
       view.ui.add(bgExpand, "top-right");
       view.ui.add(new Locate({ view: view }), "top-left");
       view.ui.add(new Search({ view: view }), "top-right");
 
-      // ✅ EDU Feature Layer with popup
+      // EDU Feature Layer
       const usaeduLayer = new FeatureLayer({
         url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
         outFields: ["INSTNM", "WEBADDR"],
@@ -119,7 +141,7 @@
       });
       map.add(usaeduLayer);
 
-      // ✅ Airport Feature Layer with popup
+      // Airport Feature Layer
       const usaairportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
         outFields: ["Fac_Name", "Fac_Use"],
@@ -127,22 +149,9 @@
           title: "Airport: {Fac_Name}",
           content: "<b>Facility Use:</b> {Fac_Use}"
         }
-      
       });
-      const airportRenderer = {
-        "type": "simple",
-        "symbol": {
-          "type": "picture-marker",
-          "url": "https://sounny.github.io/agol/outline_local_airport_black_24dp.png",
-          "width": "18px",
-          "height": "18px"
-        }
-      }
-       const airportLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/shttps://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServerervices/US_Airports/FeatureServer",
-          renderer: airportRenderer //calling the icon
-        });
-      map.add(usaairportLayer);//adding the feature to the map
+      map.add(usaairportLayer);
+
     });
   </script>
 </body>
