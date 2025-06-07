@@ -30,11 +30,9 @@
       "esri/Basemap",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-      //adding in the module for the feature layers
       "esri/layers/FeatureLayer"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer, FeatureLayer) {
 
-      //  API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi";
 
       const map = new Map({
@@ -44,11 +42,11 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6060, 39.2840], // Centered at Seven Foot Knoll Lighthouse
+        center: [-76.6060, 39.2840],
         zoom: 15
       });
 
-      // Graphics Layer for adding the point
+      // Point with popup
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
@@ -60,21 +58,23 @@
 
       const simpleMarkerSymbol = {
         type: "simple-marker",
-        style: "diamond", // Changed from default circle
+        style: "diamond",
         color: [0, 0, 139],
         outline: {
           color: [255, 255, 255],
           width: 1
         }
       };
+
       const popupTemplate = {
         title: "{Name}",
         content: "{Description}"
-      }
+      };
+
       const attributes = {
         Name: "Seven Foot Knoll Lighthouse Statue",
         Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
-      }
+      };
 
       const pointGraphic = new Graphic({
         geometry: point,
@@ -85,7 +85,7 @@
 
       graphicsLayer.add(pointGraphic);
 
-      //  Custom Basemaps
+      // Custom Basemap Gallery
       const customBasemaps = [
         Basemap.fromId("streets-navigation-vector"),
         Basemap.fromId("satellite"),
@@ -108,29 +108,19 @@
 
       view.ui.add(new Locate({ view: view }), "top-left");
       view.ui.add(new Search({ view: view }), "top-right");
-      
-      // adding the constructor for the feature layer
+
+      // ✅ EDU Feature Layer with working popup
       const usaeduLayer = new FeatureLayer({
-       url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer"
+        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
+        outFields: ["INSTNM", "WEBADDR"],
+        popupTemplate: {
+          title: "Educational Institution",
+          content: "<b>Name:</b> {INSTNM}<br><b>Website:</b> <a href='{WEBADDR}' target='_blank'>{WEBADDR}</a>"
+        }
       });
-      
-      // Define a pop-up for usaeduLayer
-      const popupEduusa = {
-      "title": "EDUs",
-      "content": "<b>Name:</b> {INSTNM}<br><b>Website:</b> {WEBADDR}<br>"
-      }
 
-    
-    //adding the popup here
-      outFields: ["INSTNM","WEBADDR"],
-      popupTemplate: popupEduusa
-      
-      //adding the feature layer to the map
       map.add(usaeduLayer);
-
     });
-
-    
   </script>
 </body>
 </html>
