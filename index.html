@@ -169,17 +169,21 @@
         height: "18px"
         }
       };
-      
-      // EDU Feature Layer
+
+      // EDU Feature Layer with custom icon and popup
       const usaeduLayer = new FeatureLayer({
         url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
         outFields: ["INSTNM", "WEBADDR"],
+        renderer: eduRenderer,
         popupTemplate: {
-          title: "Educational Institution",
-          content: "<b>Name:</b> {INSTNM}<br><b>Website:</b> <a href='{WEBADDR}' target='_blank'>{WEBADDR}</a>"
+        title: "Educational Institution",
+        content: "<b>Name:</b> {INSTNM}<br><b>Website:</b> <a href='{WEBADDR}' target='_blank'>{WEBADDR}</a>"
         }
       });
+
+      // Add to the map
       map.add(usaeduLayer);
+
 
       //  Define the airport renderer
       const airportRenderer = {
