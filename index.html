@@ -35,10 +35,10 @@
       "esri/geometry/Polygon"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer, FeatureLayer, Polyline, Polygon) {
 
-      // ✅ API key setup
+      //  API key setup
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi"; 
 
-      // ✅ Map and view
+      //  Map and view
       const map = new Map({
         basemap: "streets-navigation-vector"
       });
@@ -50,11 +50,11 @@
         zoom: 15
       });
 
-      // ✅ Graphics Layer
+      // Graphics Layer
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
-      // ✅ Add point
+      // Add point
       const pointGraphic = new Graphic({
         geometry: {
           type: "point",
@@ -75,12 +75,13 @@
       });
       graphicsLayer.add(pointGraphic);
 
-      // ✅ Polyline (Inner Harbor path)
+      // Polyline (Harborwalk path - follows Pratt Street and Light Street area)
       const polyline = new Polyline({
         paths: [
-          [-76.6130, 39.2835],
-          [-76.6100, 39.2845],
-          [-76.6060, 39.2855]
+          [-76.6168, 39.2820], // near Maryland Science Center
+          [-76.6135, 39.2833], // near Visitor Center
+          [-76.6110, 39.2845], // Inner Harbor promenade
+          [-76.6088, 39.2852]  // near National Aquarium
         ]
       });
 
@@ -99,14 +100,14 @@
       });
       graphicsLayer.add(polylineGraphic);
 
-      // ✅ Polygon (Harborplace)
+      // Polygon (Harborplace Pavilion Plaza - between Light St. and Pratt St.)
       const polygon = new Polygon({
         rings: [
-          [-76.6080, 39.2842],
-          [-76.6075, 39.2846],
-          [-76.6068, 39.2843],
-          [-76.6073, 39.2839],
-          [-76.6080, 39.2842]
+          [-76.6122, 39.2842],
+          [-76.6118, 39.2848],
+          [-76.6111, 39.2846],
+          [-76.6115, 39.2840],
+          [-76.6122, 39.2842] // closing the ring
         ]
       });
 
@@ -125,7 +126,7 @@
       });
       graphicsLayer.add(polygonGraphic);
 
-      // ✅ Basemap Gallery
+      //  Basemap Gallery
       const basemapGallery = new BasemapGallery({
         view: view
       });
@@ -139,10 +140,10 @@
       view.ui.add(new Locate({ view: view }), "top-left");
       view.ui.add(new Search({ view: view }), "top-right");
 
-      // ✅ Load feature layers after view is ready
+      // Load feature layers after view is ready
       view.when(() => {
 
-        // ✅ EDU Layer
+        // EDU Layer
         const usaeduLayer = new FeatureLayer({
           url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer/0",
           outFields: ["INSTNM", "WEBADDR"],
@@ -153,7 +154,7 @@
         });
         map.add(usaeduLayer);
 
-        // ✅ Airport Layer
+        // Airport Layer
         const usaairportLayer = new FeatureLayer({
           url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer/0",
           outFields: ["Fac_Name", "Fac_Use"],
