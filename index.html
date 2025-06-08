@@ -203,7 +203,8 @@
         renderer: airportRenderer,
         popupTemplate: {
         title: "Airport: {Fac_Name}",
-        content: "<b>Facility Use:</b> {Fac_Use}"
+        content: "<b>Facility Use:</b> {Fac_Use}",
+        definitionExpression: "Fac_Type = 'AIRPORT'" //adding sql to filter for airports
         }
       });
 
