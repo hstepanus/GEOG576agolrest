@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ESRI ArcGIS JS Example - Baltimore Harbor</title>
+  <title>ESRI ArcGIS JS Example - Baltimore Harbor Hotels</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
   <style>
     html, body, #viewDiv {
@@ -44,82 +44,97 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6113, 39.2840], // Centered on Baltimore Inner Harbor
+        center: [-76.6113, 39.2840],
         zoom: 16
       });
 
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
-      // POINT: Seven Foot Knoll Lighthouse
-      const lighthousePoint = {
-        type: "point",
-        longitude: -76.6060,
-        latitude: 39.2840
-      };
-
-      const simpleMarkerSymbol = {
-        type: "simple-marker",
-        style: "diamond",
-        color: [0, 0, 139],
-        outline: { color: [255, 255, 255], width: 1 }
-      };
-
+      // Point: Lighthouse
       const pointGraphic = new Graphic({
-        geometry: lighthousePoint,
-        symbol: simpleMarkerSymbol,
+        geometry: {
+          type: "point",
+          longitude: -76.6060,
+          latitude: 39.2840
+        },
+        symbol: {
+          type: "simple-marker",
+          style: "diamond",
+          color: [0, 0, 139],
+          outline: { color: [255, 255, 255], width: 1 }
+        },
         attributes: {
-          Name: "Seven Foot Knoll Lighthouse Statue",
-          Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
+          Name: "Seven Foot Knoll Lighthouse",
+          Description: "1855 screw-top lighthouse, now a museum."
         },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(pointGraphic);
 
-      // POLYLINE: Harbor Walk
-      const harborPolyline = new Polyline({
-        paths: [
-          [-76.6172, 39.2818], // Science Center
-          [-76.6135, 39.2832], // Visitor Center
-          [-76.6110, 39.2842], // Aquarium
-          [-76.6090, 39.2853]  // Pier 5
-        ],
-        spatialReference: { wkid: 4326 }
-      });
-
+      // Polyline: Harbor Walk
       const polylineGraphic = new Graphic({
-        geometry: harborPolyline,
+        geometry: new Polyline({
+          paths: [
+            [-76.611866, 39.283749],
+            [-76.611951, 39.284646],
+            [-76.611984, 39.285609],
+            [-76.611555, 39.285950],
+            [-76.608164, 39.286074]
+          ],
+          spatialReference: { wkid: 4326 }
+        }),
         symbol: { type: "simple-line", color: [0, 0, 255], width: 2 },
-        attributes: { Name: "Harbor Walk", Description: "Path along Inner Harbor." },
+        attributes: { Name: "Harbor Walk", Description: "Scenic path along the Inner Harbor." },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(polylineGraphic);
 
-      // POLYGON: Harborplace Plaza
-      const harborPolygon = new Polygon({
-        rings: [
-          [-76.6122, 39.2842],
-          [-76.6118, 39.2848],
-          [-76.6111, 39.2846],
-          [-76.6115, 39.2840],
-          [-76.6122, 39.2842]
-        ],
-        spatialReference: { wkid: 4326 }
-      });
-
-      const polygonGraphic = new Graphic({
-        geometry: harborPolygon,
+      // Polygon: Four Seasons Hotel
+      const fourSeasonsGraphic = new Graphic({
+        geometry: new Polygon({
+          rings: [
+            [-76.6027, 39.2816],
+            [-76.6022, 39.2820],
+            [-76.6018, 39.2817],
+            [-76.6022, 39.2813],
+            [-76.6027, 39.2816]
+          ],
+          spatialReference: { wkid: 4326 }
+        }),
         symbol: {
           type: "simple-fill",
-          color: [226, 119, 40, 0.4],
-          outline: { color: [255, 255, 255], width: 1 }
+          color: [0, 128, 0, 0.3],
+          outline: { color: [0, 128, 0], width: 2 }
         },
-        attributes: { Name: "Harborplace Plaza", Description: "Historic shopping and dining area." },
+        attributes: { Name: "Four Seasons Hotel", Description: "Luxury hotel at Inner Harbor." },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
-      graphicsLayer.add(polygonGraphic);
+      graphicsLayer.add(fourSeasonsGraphic);
 
-      // BASEMAP GALLERY
+      // Polygon: Hyatt Regency Hotel
+      const hyattGraphic = new Graphic({
+        geometry: new Polygon({
+          rings: [
+            [-76.6152, 39.2843],
+            [-76.6148, 39.2847],
+            [-76.6143, 39.2843],
+            [-76.6148, 39.2839],
+            [-76.6152, 39.2843]
+          ],
+          spatialReference: { wkid: 4326 }
+        }),
+        symbol: {
+          type: "simple-fill",
+          color: [255, 0, 0, 0.3],
+          outline: { color: [255, 0, 0], width: 2 }
+        },
+        attributes: { Name: "Hyatt Regency", Description: "Hotel near Inner Harbor." },
+        popupTemplate: { title: "{Name}", content: "{Description}" }
+      });
+      graphicsLayer.add(hyattGraphic);
+
+      // Basemap controls
       const basemapGallery = new BasemapGallery({
         view: view,
         source: [
@@ -135,9 +150,7 @@
       view.ui.add(new Locate({ view }), "top-left");
       view.ui.add(new Search({ view }), "top-right");
 
-      // FEATURE LAYERS
-
-      // EDU Layer
+      // EDU Feature Layer
       const usaeduLayer = new FeatureLayer({
         url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
         outFields: ["INSTNM", "WEBADDR"],
@@ -148,7 +161,7 @@
       });
       map.add(usaeduLayer);
 
-      // AIRPORT Layer
+      // Airport Feature Layer
       const usaairportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
         outFields: ["Fac_Name", "Fac_Use"],
