@@ -195,6 +195,25 @@
         height: "18px"
         }
       };
+      //const to make the airport labels
+      const airportLabels = {
+        symbol: {
+          type: "text",
+          color: "#FFFFFF",
+          haloColor: "#5E8D74",
+          haloSize: "2px",
+          font: {
+            size: "12px",
+            family: "Noto Sans",
+            style: "italic",
+            weight: "normal"
+          }
+        },
+        labelPlacement: "above-center",
+        labelExpressionInfo: {
+          expression: "$feature.Fac_Name"
+        }
+      };
 
       // Airport Feature Layer with popup and custom icon
       const usaairportLayer = new FeatureLayer({
@@ -202,6 +221,7 @@
         outFields: ["Fac_Name", "Fac_Use"],
         renderer: airportRenderer,
         definitionExpression: "Fac_Type = 'AIRPORT'", // SQL filter for airports only
+        labelingInfo: [airportLabels], //adding the labels
         popupTemplate: {
         title: "Airport: {Fac_Name}",
         content: "<b>Facility Use:</b> {Fac_Use}"
