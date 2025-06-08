@@ -44,7 +44,7 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6113, 39.2840],
+        center: [-76.6060, 39.2838],
         zoom: 16
       });
 
@@ -81,6 +81,7 @@
             [-76.611984, 39.285609],
             [-76.611555, 39.285950],
             [-76.608164, 39.286074]
+
           ],
           spatialReference: { wkid: 4326 }
         }),
@@ -90,51 +91,59 @@
       });
       graphicsLayer.add(polylineGraphic);
 
-      // Polygon: Four Seasons Hotel
-      const fourSeasonsGraphic = new Graphic({
-        geometry: new Polygon({
-          rings: [
-            [-76.6027, 39.2816],
-            [-76.6022, 39.2820],
-            [-76.6018, 39.2817],
-            [-76.6022, 39.2813],
-            [-76.6027, 39.2816]
-          ],
-          spatialReference: { wkid: 4326 }
-        }),
+      // Square Polygon: Baltimore Marriott Waterfront Hotel
+      const marriottSquare = new Polygon({
+        rings: [
+          [-76.6029, 39.2819],
+          [-76.6025, 39.2819],
+          [-76.6025, 39.2815],
+          [-76.6029, 39.2815],
+          [-76.6029, 39.2819]
+        ],
+        spatialReference: { wkid: 4326 }
+      });
+      const marriottGraphic = new Graphic({
+        geometry: marriottSquare,
         symbol: {
           type: "simple-fill",
-          color: [0, 128, 0, 0.3],
-          outline: { color: [0, 128, 0], width: 2 }
+          color: [0, 102, 204, 0.3],
+          outline: { color: [0, 102, 204], width: 2 }
         },
-        attributes: { Name: "Four Seasons Hotel", Description: "Luxury hotel at Inner Harbor." },
+        attributes: {
+          Name: "Baltimore Marriott Waterfront Hotel",
+          Description: "Upscale hotel with harbor views."
+        },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
-      graphicsLayer.add(fourSeasonsGraphic);
+      graphicsLayer.add(marriottGraphic);
 
-      // Polygon: Hyatt Regency Hotel
+      // Square Polygon: Hyatt Regency Inner Harbor
+      const hyattSquare = new Polygon({
+        rings: [
+          [-76.6152, 39.2845],
+          [-76.6148, 39.2845],
+          [-76.6148, 39.2841],
+          [-76.6152, 39.2841],
+          [-76.6152, 39.2845]
+        ],
+        spatialReference: { wkid: 4326 }
+      });
       const hyattGraphic = new Graphic({
-        geometry: new Polygon({
-          rings: [
-            [-76.6152, 39.2843],
-            [-76.6148, 39.2847],
-            [-76.6143, 39.2843],
-            [-76.6148, 39.2839],
-            [-76.6152, 39.2843]
-          ],
-          spatialReference: { wkid: 4326 }
-        }),
+        geometry: hyattSquare,
         symbol: {
           type: "simple-fill",
           color: [255, 0, 0, 0.3],
           outline: { color: [255, 0, 0], width: 2 }
         },
-        attributes: { Name: "Hyatt Regency", Description: "Hotel near Inner Harbor." },
+        attributes: {
+          Name: "Hyatt Regency Inner Harbor",
+          Description: "Modern hotel near the Inner Harbor."
+        },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(hyattGraphic);
 
-      // Basemap controls
+      // Basemap and widgets
       const basemapGallery = new BasemapGallery({
         view: view,
         source: [
@@ -171,6 +180,7 @@
         }
       });
       map.add(usaairportLayer);
+
     });
   </script>
 </body>
