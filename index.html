@@ -165,8 +165,8 @@
         symbol: {
         type: "picture-marker",
         url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/9036006_school_sharp_icon.png",
-        width: "16px",
-        height: "16px"
+        width: "12px",
+        height: "12px"
         }
       };
 
@@ -185,7 +185,7 @@
       map.add(usaeduLayer);
 
 
-      //  Define the airport renderer
+      // Define the airport renderer
       const airportRenderer = {
         type: "simple",
         symbol: {
@@ -196,22 +196,44 @@
         }
       };
 
-      //  Airport Feature Layer with popup and custom icon
+      // Airport Feature Layer with popup and custom icon
       const usaairportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
         outFields: ["Fac_Name", "Fac_Use"],
         renderer: airportRenderer,
-        definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
+        definitionExpression: "Fac_Type = 'AIRPORT'", // SQL filter for airports only
         popupTemplate: {
         title: "Airport: {Fac_Name}",
         content: "<b>Facility Use:</b> {Fac_Use}"
-        
         }
       });
 
-      // Add to the map
-      map.add(usaairportLayer);
+      // Define the heliport renderer
+      const heliportRenderer = {
+        type: "simple",
+        symbol: {
+        type: "picture-marker",
+        url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/2969367_airplane_bomb_fighter_helicopter_intercepter_icon.png",
+        width: "18px",
+        height: "18px"
+        }
+      };
 
+      // Heliport Feature Layer with popup and custom icon
+      const usaheliportLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
+        outFields: ["Fac_Name", "Fac_Use"],
+        renderer: heliportRenderer,
+        definitionExpression: "Fac_Type = 'HELIPORT'", // SQL filter for heliports only
+        popupTemplate: {
+        title: "Heliport: {Fac_Name}",
+        content: "<b>Facility Use:</b> {Fac_Use}"
+        }
+      });
+
+      // Add both layers to the map
+      map.add(usaairportLayer);
+      map.add(usaheliportLayer);
 
       });
   </script>
