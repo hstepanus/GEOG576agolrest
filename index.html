@@ -91,7 +91,7 @@
       });
       graphicsLayer.add(polylineGraphic);
 
-      // Square Polygon: Baltimore Marriott Waterfront Hotel
+      // Square Polygon:  Waterfront 
       const marriottSquare = new Polygon({
         rings: [
           [-76.6029, 39.2819],
@@ -110,14 +110,14 @@
           outline: { color: [0, 102, 204], width: 2 }
         },
         attributes: {
-          Name: "Baltimore Marriott Waterfront Hotel",
-          Description: "Upscale hotel with harbor views."
+          Name: " Waterfront",
+          Description: "Waterfront with nice view of Baltimore Aquarium."
         },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(marriottGraphic);
 
-      // Square Polygon: Hyatt Regency Inner Harbor
+      // Square Polygon: Hotel rows
       const hyattSquare = new Polygon({
         rings: [
           [-76.6152, 39.2845],
@@ -136,8 +136,8 @@
           outline: { color: [255, 0, 0], width: 2 }
         },
         attributes: {
-          Name: "Hyatt Regency Inner Harbor",
-          Description: "Modern hotel near the Inner Harbor."
+          Name: "Hotel row",
+          Description: "Modern hotels row near the Inner Harbor."
         },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
