@@ -35,10 +35,8 @@
       "esri/geometry/Polygon"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Basemap, Graphic, GraphicsLayer, FeatureLayer, Polyline, Polygon) {
 
-      //  API key setup
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZK0dqfziyYSX6e8AOcDz5Z2_6wcc7QHZd-F407f8Aqaca0ZUbXT91U4bbb9DlbyeP_E08UrNpM8H4B9nO7iqrRuoNURUGPc0gwrOJ1aozHeY_qVOc4z8i5c6qdXZPLyw9F7erpNXgG4cdGbQ-NN2TU8Mk78fNXiJjJEiWqZW2rDnpVnmddt7G0zQd9vmta1mfAT1_YeJvfNxi"; 
 
-      //  Map and view
       const map = new Map({
         basemap: "streets-navigation-vector"
       });
@@ -46,126 +44,120 @@
       const view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-76.6060, 39.2840],
-        zoom: 15
+        center: [-76.6113, 39.2840], // Centered on Baltimore Inner Harbor
+        zoom: 16
       });
 
-      // Graphics Layer
       const graphicsLayer = new GraphicsLayer();
       map.add(graphicsLayer);
 
-      // Add point
+      // POINT: Seven Foot Knoll Lighthouse
+      const lighthousePoint = {
+        type: "point",
+        longitude: -76.6060,
+        latitude: 39.2840
+      };
+
+      const simpleMarkerSymbol = {
+        type: "simple-marker",
+        style: "diamond",
+        color: [0, 0, 139],
+        outline: { color: [255, 255, 255], width: 1 }
+      };
+
       const pointGraphic = new Graphic({
-        geometry: {
-          type: "point",
-          longitude: -76.6060,
-          latitude: 39.2840
-        },
-        symbol: {
-          type: "simple-marker",
-          style: "diamond",
-          color: [0, 0, 139],
-          outline: { color: [255, 255, 255], width: 1 }
-        },
+        geometry: lighthousePoint,
+        symbol: simpleMarkerSymbol,
         attributes: {
           Name: "Seven Foot Knoll Lighthouse Statue",
-          Description: "1855 screw-top lighthouse preserved as a museum."
+          Description: "Relocated from a Patapsco River shoal, this 1855 screw-top lighthouse is preserved as a museum."
         },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(pointGraphic);
 
-      // Polyline (Harborwalk path - follows Pratt Street and Light Street area)
-      const polyline = new Polyline({
+      // POLYLINE: Harbor Walk
+      const harborPolyline = new Polyline({
         paths: [
-          [-76.6168, 39.2820], // near Maryland Science Center
-          [-76.6135, 39.2833], // near Visitor Center
-          [-76.6110, 39.2845], // Inner Harbor promenade
-          [-76.6088, 39.2852]  // near National Aquarium
-        ]
+          [-76.6172, 39.2818], // Science Center
+          [-76.6135, 39.2832], // Visitor Center
+          [-76.6110, 39.2842], // Aquarium
+          [-76.6090, 39.2853]  // Pier 5
+        ],
+        spatialReference: { wkid: 4326 }
       });
 
       const polylineGraphic = new Graphic({
-        geometry: polyline,
-        symbol: {
-          type: "simple-line",
-          color: [0, 0, 255],
-          width: 2
-        },
-        attributes: {
-          Name: "Harbor Walk",
-          Description: "Path along Inner Harbor."
-        },
+        geometry: harborPolyline,
+        symbol: { type: "simple-line", color: [0, 0, 255], width: 2 },
+        attributes: { Name: "Harbor Walk", Description: "Path along Inner Harbor." },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(polylineGraphic);
 
-      // Polygon (Harborplace Pavilion Plaza - between Light St. and Pratt St.)
-      const polygon = new Polygon({
+      // POLYGON: Harborplace Plaza
+      const harborPolygon = new Polygon({
         rings: [
           [-76.6122, 39.2842],
           [-76.6118, 39.2848],
           [-76.6111, 39.2846],
           [-76.6115, 39.2840],
-          [-76.6122, 39.2842] // closing the ring
-        ]
+          [-76.6122, 39.2842]
+        ],
+        spatialReference: { wkid: 4326 }
       });
 
       const polygonGraphic = new Graphic({
-        geometry: polygon,
+        geometry: harborPolygon,
         symbol: {
           type: "simple-fill",
-          color: [226, 119, 40, 0.3],
+          color: [226, 119, 40, 0.4],
           outline: { color: [255, 255, 255], width: 1 }
         },
-        attributes: {
-          Name: "Harborplace Plaza",
-          Description: "Historic shopping and dining area."
-        },
+        attributes: { Name: "Harborplace Plaza", Description: "Historic shopping and dining area." },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
       graphicsLayer.add(polygonGraphic);
 
-      //  Basemap Gallery
+      // BASEMAP GALLERY
       const basemapGallery = new BasemapGallery({
-        view: view
-      });
-      const bgExpand = new Expand({
         view: view,
-        content: basemapGallery,
-        expandIconClass: "esri-icon-basemap"
-      });
-      view.ui.add(bgExpand, "top-right");
-
-      view.ui.add(new Locate({ view: view }), "top-left");
-      view.ui.add(new Search({ view: view }), "top-right");
-
-      // Load feature layers after view is ready
-      view.when(() => {
-
-        // EDU Layer
-        const usaeduLayer = new FeatureLayer({
-          url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer/0",
-          outFields: ["INSTNM", "WEBADDR"],
-          popupTemplate: {
-            title: "Educational Institution",
-            content: "<b>Name:</b> {INSTNM}<br><b>Website:</b> <a href='{WEBADDR}' target='_blank'>{WEBADDR}</a>"
-          }
-        });
-        map.add(usaeduLayer);
-
-        // Airport Layer
-        const usaairportLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer/0",
-          outFields: ["Fac_Name", "Fac_Use"],
-          popupTemplate: {
-            title: "Airport: {Fac_Name}",
-            content: "<b>Facility Use:</b> {Fac_Use}"
-          }
-        });
-        map.add(usaairportLayer);
+        source: [
+          Basemap.fromId("streets-navigation-vector"),
+          Basemap.fromId("satellite"),
+          Basemap.fromId("oceans"),
+          Basemap.fromId("topo-vector"),
+          Basemap.fromId("dark-gray-vector")
+        ]
       });
 
+      view.ui.add(new Expand({ view, content: basemapGallery }), "top-right");
+      view.ui.add(new Locate({ view }), "top-left");
+      view.ui.add(new Search({ view }), "top-right");
+
+      // FEATURE LAYERS
+
+      // EDU Layer
+      const usaeduLayer = new FeatureLayer({
+        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
+        outFields: ["INSTNM", "WEBADDR"],
+        popupTemplate: {
+          title: "Educational Institution",
+          content: "<b>Name:</b> {INSTNM}<br><b>Website:</b> <a href='{WEBADDR}' target='_blank'>{WEBADDR}</a>"
+        }
+      });
+      map.add(usaeduLayer);
+
+      // AIRPORT Layer
+      const usaairportLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
+        outFields: ["Fac_Name", "Fac_Use"],
+        popupTemplate: {
+          title: "Airport: {Fac_Name}",
+          content: "<b>Facility Use:</b> {Fac_Use}"
+        }
+      });
+      map.add(usaairportLayer);
     });
   </script>
 </body>
