@@ -61,7 +61,7 @@
         symbol: {
           type: "simple-marker",
           style: "diamond",
-          color: [255, 0, 0],
+          color: [255, 255, 0],
           outline: { color: [255, 255, 255], width: 1 }
         },
         attributes: {
@@ -136,8 +136,8 @@
           outline: { color: [255, 0, 0], width: 2 }
         },
         attributes: {
-          Name: "Hotel row",
-          Description: "Modern hotels row near the Inner Harbor."
+          Name: "Inner Harbor Hotel Strip",
+          Description: "A row of modern hotels near the Inner Harbor."
         },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
@@ -243,14 +243,18 @@
       // Heliport Feature Layer with popup and custom icon
       const usaheliportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
-        outFields: ["Fac_Name", "Fac_Use"],
+        outFields: ["Fac_Name", "Fac_Use", "Owner_Type"],
         renderer: heliportRenderer,
         definitionExpression: "Fac_Type = 'HELIPORT'", // SQL filter for heliports only
         popupTemplate: {
-        title: "Heliport: {Fac_Name}",
-        content: "<b>Facility Use:</b> {Fac_Use}"
+          title: "Airport: {Fac_Name}",
+          content: `
+            <b>Facility Use:</b> {Fac_Use}<br>
+            <b>Owner Type:</b> {Owner_Type}
+    `
         }
       });
+
 
       // Add both layers to the map
       map.add(usaairportLayer);
