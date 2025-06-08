@@ -170,18 +170,32 @@
       });
       map.add(usaeduLayer);
 
-      // Airport Feature Layer
+      //  Define the airport renderer
+      const airportRenderer = {
+        type: "simple",
+        symbol: {
+        type: "picture-marker",
+        url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/2969367_airplane_bomb_fighter_helicopter_intercepter_icon.png",
+        width: "18px",
+        height: "18px"
+        }
+      };
+
+      //  Airport Feature Layer with popup and custom icon
       const usaairportLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
         outFields: ["Fac_Name", "Fac_Use"],
+        renderer: airportRenderer,
         popupTemplate: {
-          title: "Airport: {Fac_Name}",
-          content: "<b>Facility Use:</b> {Fac_Use}"
+        title: "Airport: {Fac_Name}",
+        content: "<b>Facility Use:</b> {Fac_Use}"
         }
       });
+
+      // Add to the map
       map.add(usaairportLayer);
 
-    });
+      });
   </script>
 </body>
 </html>
