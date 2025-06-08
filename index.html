@@ -111,7 +111,7 @@
         },
         attributes: {
           Name: " Waterfront",
-          Description: "Waterfront with nice view of Baltimore Aquarium."
+          Description: "Waterfront near Marriott corner with nice view of Baltimore Aquarium and the harbor."
         },
         popupTemplate: { title: "{Name}", content: "{Description}" }
       });
@@ -159,6 +159,17 @@
       view.ui.add(new Locate({ view }), "top-left");
       view.ui.add(new Search({ view }), "top-right");
 
+      // Define the EDU renderer
+      const eduRenderer = {
+        type: "simple",
+        symbol: {
+        type: "picture-marker",
+        url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/9036006_school_sharp_icon.png",
+        width: "18px",
+        height: "18px"
+        }
+      };
+      
       // EDU Feature Layer
       const usaeduLayer = new FeatureLayer({
         url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
