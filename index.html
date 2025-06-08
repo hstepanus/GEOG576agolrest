@@ -165,8 +165,8 @@
         symbol: {
         type: "picture-marker",
         url: "https://raw.githubusercontent.com/hstepanus/AGOL/main/9036006_school_sharp_icon.png",
-        width: "18px",
-        height: "18px"
+        width: "16px",
+        height: "16px"
         }
       };
 
@@ -201,10 +201,11 @@
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_GEOG576_stepanus/FeatureServer",
         outFields: ["Fac_Name", "Fac_Use"],
         renderer: airportRenderer,
+        definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
         popupTemplate: {
         title: "Airport: {Fac_Name}",
-        content: "<b>Facility Use:</b> {Fac_Use}",
-        definitionExpression: "Fac_Type = 'AIRPORT'" //adding sql to filter for airports
+        content: "<b>Facility Use:</b> {Fac_Use}"
+        
         }
       });
 
